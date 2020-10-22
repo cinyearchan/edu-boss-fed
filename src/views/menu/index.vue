@@ -1,6 +1,8 @@
 <template>
   <div class="menu">
-    <h1>menu</h1>
+    <el-card>
+      <el-button @click="$router.push({ name: 'menu-create' })">添加菜单</el-button>
+    </el-card>
   </div>
 </template>
 

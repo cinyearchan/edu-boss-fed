@@ -40,6 +40,14 @@ const routes: Array<RouteConfig> = [
         }
       },
       {
+        path: '/menu/create',
+        name: 'menu-create',
+        component: () => import(/* webpackChunkName: 'menuCreate' */ '@/views/menu/create.vue'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
         path: '/resource',
         name: 'resource',
         component: () => import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue'),
