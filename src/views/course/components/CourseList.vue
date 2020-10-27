@@ -49,7 +49,12 @@
         </el-table-column>
         <el-table-column label="操作" width="260" align="center">
           <template slot-scope="scope">
-            <el-button @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button @click="$router.push({
+              name: 'course-edit',
+              params: {
+                courseId: scope.row.id
+              }
+            })">编辑</el-button>
             <el-button @click="handleDetail(scope.$index, scope.row)">内容管理</el-button>
           </template>
         </el-table-column>
@@ -113,9 +118,6 @@ export default Vue.extend({
       (this.$refs.form as Form).resetFields()
       this.filterParams.currentPage = 1
       this.loadCourses()
-    },
-    handleEdit (index: number, row: any) {
-      console.log(index, row)
     },
     handleDetail (index: number, row: any) {
       console.log(index, row)
