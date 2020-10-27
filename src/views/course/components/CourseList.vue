@@ -55,7 +55,12 @@
                 courseId: scope.row.id
               }
             })">编辑</el-button>
-            <el-button @click="handleDetail(scope.$index, scope.row)">内容管理</el-button>
+            <el-button @click="$router.push({
+              name: 'course-section',
+              params: {
+                courseId: scope.row.id
+              }
+            })">内容管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -118,9 +123,6 @@ export default Vue.extend({
       (this.$refs.form as Form).resetFields()
       this.filterParams.currentPage = 1
       this.loadCourses()
-    },
-    handleDetail (index: number, row: any) {
-      console.log(index, row)
     },
     async onStateChange (course: any) {
       course.isStatusLoading = true
