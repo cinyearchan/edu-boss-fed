@@ -24,7 +24,12 @@
         <el-table-column label="添加时间" prop="createdTime"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button>分配菜单</el-button>
+            <el-button @click="$router.push({
+              name: 'alloc-menu',
+              params: {
+                roleId: scope.row.id
+              }
+            })">分配菜单</el-button>
             <el-button>分配资源</el-button>
             <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
             <el-button size="mini" @click="handleDelete(scope.row)">删除</el-button>
