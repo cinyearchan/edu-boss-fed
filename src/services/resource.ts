@@ -11,3 +11,25 @@ export const getResourcePages = (data: any) => {
     data
   })
 }
+
+export const getAllResource = () => {
+  return request({
+    method: 'GET',
+    url: '/boss/resource/getAll'
+  })
+}
+
+export const allocRoleResources = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/resource/allocateRoleResources',
+    data
+  })
+}
+
+export const getRoleResources = (roleId: string | number) => {
+  return request({
+    method: 'GET',
+    url: `/boss/menu/getRoleResources?roleId=${roleId}`
+  })
+}
