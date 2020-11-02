@@ -36,7 +36,7 @@ export const getEditRoleInfo = (id: string | number) => {
   })
 }
 
-export const getUserRole = (userId: string | number) => {
+export const getUserRoles = (userId: string | number) => {
   return request({
     method: 'GET',
     url: `/boss/role/user/${userId}`
@@ -57,5 +57,13 @@ export const deleteRole = (id: number | string) => {
   return request({
     method: 'DELETE',
     url: `/boss/role/${id}`
+  })
+}
+
+export const allocateUserRoles = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/role/allocateUserRoles',
+    data
   })
 }
