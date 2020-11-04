@@ -94,9 +94,11 @@ export default Vue.extend({
         },
         // 文件上传成功
         onUploadSucceed: function (uploadInfo: any) {
+          console.log('upload success')
         },
         // 文件上传失败
         onUploadFailed: function (uploadInfo: any, code: any, message: any) {
+          console.log('upload fail')
         },
         // 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
         onUploadProgress: (uploadInfo: any, totalSize: any, progress: any) => {
@@ -106,6 +108,7 @@ export default Vue.extend({
         },
         // 上传凭证超时
         onUploadTokenExpired: function (uploadInfo: any) {
+          console.log('token expired')
         },
         // 全部文件上传结束
         onUploadEnd: async (uploadInfo: any) => {
