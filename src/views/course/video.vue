@@ -38,7 +38,7 @@ import {
 } from '@/services/aliyun-upload'
 
 export default Vue.extend({
-  name: "CourseVideo",
+  name: 'CourseVideo',
   data () {
     return {
       uploader: null,
@@ -62,7 +62,7 @@ export default Vue.extend({
   },
   methods: {
     initUploader () {
-      this.uploader = new window['AliyunUpload'].Vod({
+      this.uploader = new window.AliyunUpload.Vod({
         userId: '1618139964448548',
         region: '',
         partSize: 1048576,
@@ -126,7 +126,7 @@ export default Vue.extend({
             }
           }, 3000)
         }
-      })  
+      })
     },
     handleUpload () {
       this.isUploadSuccess = false
