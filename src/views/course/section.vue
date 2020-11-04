@@ -29,9 +29,31 @@
             </el-select>
           </span>
           <span v-if="data.theme" class="action">
-            <el-button>编辑</el-button>
-            <el-button>上传视频</el-button>
-            <el-button>状态</el-button>
+            <el-button @click="handleShowEditLesson(data, node.parent.data)">编辑</el-button>
+            <el-button
+              type="success"
+              @click="$router.push({
+                name: 'course-video',
+                params: {
+                  courseId
+                },
+                query: {
+                  sectionId: node.parent.id,
+                  lessonId: data.id
+                }
+              })"
+            >上传视频</el-button>
+            <!-- <el-button>状态</el-button> -->
+            <el-select
+              class="select-status"
+              v-model="data.status"
+              placeholder="请选择"
+              @change="handleLessonStatusChange(data)"
+            >
+              <el-option label="已隐藏" :value="0"></el-option>
+              <el-option label="待更新" :value="1"></el-option>
+              <el-option label="已更新" :value="2"></el-option>
+            </el-select>
           </span>
         </div>
       </el-tree>
@@ -172,6 +194,9 @@ export default Vue.extend({
         orderNum: '',
         status: 0
       }
+    },
+    handleLessonStatusChange (data: any) {
+      console.log(data)
     }
   }
 })
