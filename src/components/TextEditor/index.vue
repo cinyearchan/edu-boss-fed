@@ -5,6 +5,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import E from 'wangeditor'
+import { uploadCourseImage } from '@/services/course'
 
 export default Vue.extend({
   name: 'TextEditor',
@@ -18,12 +19,26 @@ export default Vue.extend({
     return {}
   },
   mounted () {
-    const editor = new E(this.$refs.editor as any)
-    editor.config.onchange = (newHtml: string) => {
-      this.$emit('input', newHtml)
+    this.initEditor()
+  },
+  methods: {
+    initEditor () {
+      const editor = new E(this.$refs.editor as any)
+      // 注意：事件监听必须在 create 之前
+      editor.config.onchange = (value: string) => {
+        this.$emit('input', value)
+      }
+      editor.create()
+      // 注意：设置初始化必须在 create 之后
+      editor.txt.html(this.value)
+      editor.config.customUploadImg = async (resultFiles: any, insertImgFn: any) => {
+        // insertImgFn(imgUrl)
+        const fd = new FormData()
+        fd.append('file', resultFiles[0])
+        const { data } = await uploadCourseImage(fd)
+        insertImgFn(data.data.name)
+      }
     }
-    editor.create()
-    editor.txt.html(this.value)
   }
 })
 </script>
