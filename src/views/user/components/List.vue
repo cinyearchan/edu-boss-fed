@@ -185,6 +185,7 @@ export default Vue.extend({
       // console.log(row)
       const { data } = await forbidUser({ userId: row.id })
       // console.log(data)
+      this.loadUsers()
     },
     async handleSelectRole (row: any) {
       this.currentUser = row
