@@ -190,7 +190,7 @@ export default Vue.extend({
       // console.log(data)
       this.roles = data.data
       // console.log(row)
-      const { data: { data: { userRoles } } } = await getUserRoles((this.currentUser as any).id)
+      const { data: { data: userRoles } } = await getUserRoles((this.currentUser as any).id)
       // console.log(userRoles)
       this.roleIdList = userRoles.map((role: any) => role.id)
       this.dialogVisible = true

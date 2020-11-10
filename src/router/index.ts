@@ -13,12 +13,13 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/',
+    redirect: '/course',
     component: Layout,
     children: [
       {
         path: '',
         name: 'home',
-        component: () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue'),
+        component: () => import(/* webpackChunkName: 'home' */ '@/views/course/index.vue'),
         meta: {
           requiresAuth: true
         }

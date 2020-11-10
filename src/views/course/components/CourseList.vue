@@ -4,7 +4,7 @@
       <div slot="header">
         数据筛选
       </div>
-      <el-form ref="form" :model="filterParams" label-width="100px">
+      <el-form ref="form" :inline="true" :model="filterParams" label-width="100px">
         <el-form-item prop="courseName" label="课程名称">
           <el-input></el-input>
         </el-form-item>
@@ -15,8 +15,8 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="handleReset" :loading="loading">重置</el-button>
           <el-button type="primary" @click="loadCourses" :loading="loading">查询</el-button>
+          <el-button @click="handleReset" :loading="loading">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
