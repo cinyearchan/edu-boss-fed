@@ -43,3 +43,10 @@ export const forbidUser = (data: any) => {
     data
   })
 }
+
+export const getUserPermissions = () => {
+  return request({
+    method: 'GET',
+    url: '/boss/permission/getUserPermissions'
+  })
+}

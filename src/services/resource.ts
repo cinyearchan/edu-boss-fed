@@ -27,9 +27,16 @@ export const allocRoleResources = (data: any) => {
   })
 }
 
-export const getRoleResources = (roleId: string | number) => {
+export const getRoleMenus = (roleId: string | number) => {
   return request({
     method: 'GET',
     url: `/boss/menu/getRoleResources?roleId=${roleId}`
+  })
+}
+
+export const getRoleResources = (roleId: string | number) => {
+  return request({
+    method: 'GET',
+    url: `boss/resource/getRoleResources?roleId=${roleId}`
   })
 }
