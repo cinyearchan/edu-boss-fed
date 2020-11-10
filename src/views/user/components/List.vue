@@ -89,7 +89,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getUserPages } from '@/services/user'
+import { getUserPages, forbidUser } from '@/services/user'
 import { getAllRoles, allocateUserRoles, getUserRoles } from '@/services/role'
 import { Form } from 'element-ui'
 
@@ -181,8 +181,10 @@ export default Vue.extend({
       this.filterParams.currentPage = current
       this.loadUsers()
     },
-    handleUpdate (row: any) {
-      console.log(row)
+    async handleUpdate (row: any) {
+      // console.log(row)
+      const { data } = await forbidUser({ userId: row.id })
+      // console.log(data)
     },
     async handleSelectRole (row: any) {
       this.currentUser = row

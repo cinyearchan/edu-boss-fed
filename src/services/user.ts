@@ -35,3 +35,11 @@ export const getUserPages = (data: any) => {
     data
   })
 }
+
+export const forbidUser = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/user/forbidUser',
+    data
+  })
+}
