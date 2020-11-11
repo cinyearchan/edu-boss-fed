@@ -7,9 +7,19 @@
       <el-header>
         <app-header></app-header>
       </el-header>
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+      <el-scrollbar
+          wrapClass="yf-container"
+          viewClass="yf-content"
+          wrapStyle="color:'#fff';fontSize:'16px';"
+          viewStyle="color:'#fff';fontSize:'16px';"
+          :native="false"
+          :noresize="true"
+          tag="div"
+        >
+        <el-main class="main-wrapper">
+          <router-view></router-view>
+        </el-main>
+      </el-scrollbar>
     </el-container>
   </el-container>
 </template>
@@ -41,5 +51,8 @@ export default Vue.extend({
 }
 .el-main {
   background: #e9eef3;
+}
+::v-deep .yf-container {
+  max-height: calc(100vh - 60px);
 }
 </style>

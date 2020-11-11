@@ -2,12 +2,12 @@
   <div class="role">
     <el-card class="clearfix">
       <div slot="header">
-        <el-form ref="form" :model="filterParams" label-width="80px">
+        <el-form ref="form" :inline="true" :model="filterParams" label-width="80px">
           <el-form-item label="角色名称">
             <el-input v-model="filterParams.name"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="handleSubmit" :disabled="isLoading">查询搜索</el-button>
+            <el-button type="primary" @click="handleSubmit" :disabled="isLoading">查询</el-button>
             <el-button @click="handleReset" :disabled="isLoading">重置</el-button>
           </el-form-item>
         </el-form>
