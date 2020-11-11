@@ -40,3 +40,10 @@ export const getRoleResources = (roleId: string | number) => {
     url: `boss/resource/getRoleResources?roleId=${roleId}`
   })
 }
+
+export const deleteResource = (resourceId: string | number) => {
+  return request({
+    method: 'DELETE',
+    url: `/boss/resource/${resourceId}`
+  })
+}

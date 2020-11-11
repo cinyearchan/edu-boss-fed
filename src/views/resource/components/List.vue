@@ -1,24 +1,28 @@
 <template>
   <div class="resource-list">
     <el-card class="box-card">
+      <el-form ref="form" :inline="true" :model="form" label-width="80px">
+        <el-form-item prop="name" label="资源名称">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="url" label="资源路径">
+          <el-input v-model="form.url"></el-input>
+        </el-form-item>
+        <el-form-item prop="categoryId" label="资源分类">
+          <el-select v-model="form.categoryId" clearable>
+            <el-option v-for="category in resouceCategories" :label="category.name" :value="category.id" :key="category.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit" :disabled="isLoading">查询</el-button>
+          <el-button @click="onReset" :disabled="isLoading">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <el-card class="box-card">
       <div class="clearfix" slot="header">
-        <el-form ref="form" :model="form" label-width="80px">
-          <el-form-item prop="name" label="资源名称">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item prop="url" label="资源路径">
-            <el-input v-model="form.url"></el-input>
-          </el-form-item>
-          <el-form-item prop="categoryId" label="资源分类">
-            <el-select v-model="form.categoryId" clearable>
-              <el-option v-for="category in resouceCategories" :label="category.name" :value="category.id" :key="category.id"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit" :disabled="isLoading">查询搜索</el-button>
-            <el-button @click="onReset" :disabled="isLoading">重置</el-button>
-          </el-form-item>
-        </el-form>
+        <el-button>添加</el-button>
+        <el-button>资源分类</el-button>
       </div>
       <el-table
         :data="resources"
@@ -32,8 +36,8 @@
         <el-table-column prop="createdTime" label="添加时间" width="180"></el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope">
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button type="danger" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+            <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -55,7 +59,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Form } from 'element-ui'
-import { getResourcePages } from '@/services/resource'
+import { getResourcePages, deleteResource } from '@/services/resource'
 import { getResourceCategories } from '@/services/resource-category'
 
 export default Vue.extend({
@@ -105,11 +109,13 @@ export default Vue.extend({
       this.form.current = 1
       this.loadResources()
     },
-    handleEdit (index: number, row: any) {
-      console.log(index, row)
+    handleEdit (row: any) {
+      console.log(row)
     },
-    handleDelete (index: number, row: any) {
-      console.log(index, row)
+    async handleDelete (row: any) {
+      // console.log(row)
+      await deleteResource(row.id)
+      this.loadResources()
     },
     handleSizeChange (size: number) {
       // console.log(size)
