@@ -22,7 +22,9 @@
     <el-card class="box-card">
       <div class="clearfix" slot="header">
         <el-button @click="dialogVisible = true">添加</el-button>
-        <el-button>资源分类</el-button>
+        <el-button @click="$router.push({
+          name: 'resourceCategory'
+        })">资源分类</el-button>
       </div>
       <el-table
         :data="resources"
