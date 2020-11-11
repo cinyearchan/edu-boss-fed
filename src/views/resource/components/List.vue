@@ -21,7 +21,7 @@
     </el-card>
     <el-card class="box-card">
       <div class="clearfix" slot="header">
-        <el-button>添加</el-button>
+        <el-button @click="dialogVisible = true">添加</el-button>
         <el-button>资源分类</el-button>
       </div>
       <el-table
@@ -53,13 +53,39 @@
         :total="total"
       ></el-pagination>
     </el-card>
+    <el-dialog
+      :title="resource.id ? '编辑资源' : '添加资源'"
+      :visible.sync="dialogVisible"
+      width="50%"
+    >
+      <el-form :model="resource" label-width="80px">
+        <el-form-item prop="name" label="资源名称">
+          <el-input v-model="resource.name"></el-input>
+        </el-form-item>
+        <el-form-item prop="url" label="资源路径">
+          <el-input v-model="resource.url"></el-input>
+        </el-form-item>
+        <el-form-item prop="categoryId" label="资源分类">
+          <el-select v-model="resource.categoryId" clearable>
+            <el-option v-for="category in resouceCategories" :label="category.name" :value="category.id" :key="category.id"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="description" label="描述">
+          <el-input type="textarea" v-model="resource.description"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="dialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="saveOrUpdate">确定</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { Form } from 'element-ui'
-import { getResourcePages, deleteResource } from '@/services/resource'
+import { getResourcePages, saveOrUpdateResource, deleteResource } from '@/services/resource'
 import { getResourceCategories } from '@/services/resource-category'
 
 export default Vue.extend({
@@ -76,7 +102,15 @@ export default Vue.extend({
       },
       total: 0,
       resouceCategories: [],
-      isLoading: true
+      isLoading: true,
+      resource: {
+        id: null,
+        name: '',
+        categoryId: null,
+        url: '',
+        description: ''
+      },
+      dialogVisible: false
     }
   },
 
@@ -110,7 +144,9 @@ export default Vue.extend({
       this.loadResources()
     },
     handleEdit (row: any) {
-      console.log(row)
+      // console.log(row)
+      this.resource = row
+      this.dialogVisible = true
     },
     async handleDelete (row: any) {
       // console.log(row)
@@ -127,6 +163,33 @@ export default Vue.extend({
       // console.log(current)
       this.form.current = current
       this.loadResources()
+    },
+    async saveOrUpdate () {
+      try {
+        const { data: { code } } = await saveOrUpdateResource(this.resource)
+        if (code === '000000') {
+          this.$message.success('操作成功')
+        } else {
+          this.$message.error('操作失败')
+        }
+        this.dialogVisible = false
+        this.loadResources()
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  },
+  watch: {
+    dialogVisible (val) {
+      if (!val) {
+        this.resource = {
+          id: null,
+          name: '',
+          categoryId: null,
+          url: '',
+          description: ''
+        }
+      }
     }
   }
 })

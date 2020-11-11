@@ -41,6 +41,14 @@ export const getRoleResources = (roleId: string | number) => {
   })
 }
 
+export const saveOrUpdateResource = (data: any) => {
+  return request({
+    method: 'POST',
+    url: '/boss/resource/saveOrUpdate',
+    data
+  })
+}
+
 export const deleteResource = (resourceId: string | number) => {
   return request({
     method: 'DELETE',
