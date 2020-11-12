@@ -29,7 +29,10 @@ const routes: Array<RouteConfig> = [
         name: 'role',
         component: () => import(/* webpackChunkName: 'role' */ '@/views/role/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '角色管理'
+          }]
         }
       },
       {
@@ -38,7 +41,13 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'allocMenu' */ '@/views/role/alloc-menu.vue'),
         props: true,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '角色管理',
+            name: 'role'
+          }, {
+            label: '角色菜单管理'
+          }]
         }
       },
       {
@@ -47,7 +56,13 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'allocResource' */ '@/views/role/alloc-resource.vue'),
         props: true,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '角色管理',
+            name: 'role'
+          }, {
+            label: '角色资源管理'
+          }]
         }
       },
       {
@@ -55,7 +70,10 @@ const routes: Array<RouteConfig> = [
         name: 'menu',
         component: () => import(/* webpackChunkName: 'menu' */ '@/views/menu/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '菜单管理'
+          }]
         }
       },
       {
@@ -63,7 +81,13 @@ const routes: Array<RouteConfig> = [
         name: 'menu-create',
         component: () => import(/* webpackChunkName: 'menuCreateEdit' */ '@/views/menu/create.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '菜单管理',
+            name: 'menu'
+          }, {
+            label: '添加菜单'
+          }]
         }
       },
       {
@@ -71,7 +95,13 @@ const routes: Array<RouteConfig> = [
         name: 'menu-edit',
         component: () => import(/* webpackChunkName: 'menuCreateEdit' */ '@/views/menu/edit.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '菜单管理',
+            name: 'menu'
+          }, {
+            label: '编辑菜单'
+          }]
         }
       },
       {
@@ -79,7 +109,10 @@ const routes: Array<RouteConfig> = [
         name: 'resource',
         component: () => import(/* webpackChunkName: 'resource' */ '@/views/resource/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '资源管理'
+          }]
         }
       },
       {
@@ -87,7 +120,10 @@ const routes: Array<RouteConfig> = [
         name: 'resourceCategory',
         component: () => import(/* webpackChunkName: 'resourceCategory' */ '@/views/resourceCategory/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '资源分类'
+          }]
         }
       },
       {
@@ -95,7 +131,10 @@ const routes: Array<RouteConfig> = [
         name: 'course',
         component: () => import(/* webpackChunkName: 'course' */ '@/views/course/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '课程管理'
+          }]
         }
       },
       {
@@ -103,7 +142,13 @@ const routes: Array<RouteConfig> = [
         name: 'course-create',
         component: () => import(/* webpackChunkName: 'courseCreate' */ '@/views/course/create.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '课程管理',
+            name: 'course'
+          }, {
+            label: '添加课程'
+          }]
         }
       },
       {
@@ -112,7 +157,13 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'courseEdit' */ '@/views/course/edit.vue'),
         props: true,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '课程管理',
+            name: 'course'
+          }, {
+            label: '编辑菜单'
+          }]
         }
       },
       {
@@ -121,7 +172,13 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'courseSection' */ '@/views/course/section.vue'),
         props: true,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '课程管理',
+            name: 'course'
+          }, {
+            label: '课程结构'
+          }]
         }
       },
       {
@@ -130,7 +187,10 @@ const routes: Array<RouteConfig> = [
         component: () => import(/* webpackChunkName: 'courseVideo' */ '@/views/course/video.vue'),
         props: true,
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '上传视频'
+          }]
         }
       },
       {
@@ -138,7 +198,10 @@ const routes: Array<RouteConfig> = [
         name: 'user',
         component: () => import(/* webpackChunkName: 'user' */ '@/views/user/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '用户管理'
+          }]
         }
       },
       {
@@ -146,7 +209,10 @@ const routes: Array<RouteConfig> = [
         name: 'advert',
         component: () => import(/* webpackChunkName: 'advert' */ '@/views/advert/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '广告管理'
+          }]
         }
       },
       {
@@ -154,7 +220,10 @@ const routes: Array<RouteConfig> = [
         name: 'advert-space',
         component: () => import(/* webpackChunkName: 'advertspace' */ '@/views/advert-space/index.vue'),
         meta: {
-          requiresAuth: true
+          requiresAuth: true,
+          bread: [{
+            label: '广告位管理'
+          }]
         }
       }
     ]

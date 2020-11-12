@@ -2,9 +2,10 @@
   <div class="header">
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-      <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-      <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+      <template v-for="item in bread">
+        <el-breadcrumb-item v-if="item.name" :key="item.label" :to="{ name: item.name }">{{ item.label }}</el-breadcrumb-item>
+        <el-breadcrumb-item v-else :key="item.label">{{ item.label }}</el-breadcrumb-item>
+      </template>
     </el-breadcrumb>
     <el-dropdown>
       <span class="el-dropdown-link">
@@ -30,6 +31,11 @@ export default Vue.extend({
       userInfo: {}
     }
   },
+  computed: {
+    bread () {
+      return this.$route.meta.bread || []
+    }
+  },
   created () {
     this.loadUserInfo()
   },
@@ -52,6 +58,11 @@ export default Vue.extend({
       }).catch(() => {
         this.$message.info('已取消退出')
       })
+    }
+  },
+  watch: {
+    $route (val, oldVal) {
+      console.log(val, oldVal)
     }
   }
 })
