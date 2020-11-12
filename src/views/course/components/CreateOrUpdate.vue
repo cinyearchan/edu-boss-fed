@@ -144,7 +144,7 @@ import TextEditor from '@/components/TextEditor/index.vue'
 import dayjs from 'dayjs'
 
 export default Vue.extend({
-  name: 'CreateOrUpdate',
+  name: 'CreateOrUpdate', // 创建或编辑课程
   components: {
     CourseImage,
     TextEditor

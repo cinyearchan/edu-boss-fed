@@ -15,9 +15,10 @@
         <div class="inner" slot-scope="{ node, data }">
           <span>{{ node.label }}</span>
           <span v-if="data.sectionName" class="action">
-            <el-button @click.stop="handleEditSectionShow(data)">编辑</el-button>
-            <el-button type="primary" @click.stop="handleShowAddLesson(data)">添加课时</el-button>&nbsp;&nbsp;
+            <el-button size="mini" @click.stop="handleEditSectionShow(data)">编辑</el-button>
+            <el-button size="mini" type="primary" @click.stop="handleShowAddLesson(data)">添加课时</el-button>&nbsp;&nbsp;
             <el-select
+              size="mini"
               class="select-status"
               v-model="data.status"
               placeholder="请选择"
@@ -29,8 +30,9 @@
             </el-select>
           </span>
           <span v-if="data.theme" class="action">
-            <el-button @click="handleShowEditLesson(data, node.parent.data)">编辑</el-button>
+            <el-button size="mini" @click="handleShowEditLesson(data, node.parent.data)">编辑</el-button>
             <el-button
+              size="mini"
               type="success"
               @click="$router.push({
                 name: 'course-video',
@@ -42,9 +44,10 @@
                   lessonId: data.id
                 }
               })"
-            >上传视频</el-button>
+            >上传视频</el-button>&nbsp;&nbsp;
             <!-- <el-button>状态</el-button> -->
             <el-select
+              size="mini"
               class="select-status"
               v-model="data.status"
               placeholder="请选择"
@@ -58,20 +61,40 @@
         </div>
       </el-tree>
     </el-card>
-    <create-or-update-section :section="section" ref="sectionDialog" @sectionDialogHide="handleSectionDialogHide"></create-or-update-section>
+    <!-- 章节 -->
+    <create-or-update-section
+      :section="section"
+      :course="course"
+      ref="sectionDialog"
+      @submitSectionData="handleSubmitSection"
+      @sectionDialogHide="handleSectionDialogHide"
+    ></create-or-update-section>
+    <!-- 课时 -->
+    <create-or-update-lesson
+      :lesson="lesson"
+      :course="course"
+      ref="lessonDialog"
+      @submitLessonData="handleSubmitLessonData"
+      @lessonDialogHide="handleLessonDialogHide"
+    ></create-or-update-lesson>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import { getCourseById } from '@/services/course'
 import { getSectionAndLesson, saveOrUpdateSection } from '@/services/course-section'
 import { saveOrUpdateLesson } from '@/services/course-lesson'
 import CreateOrUpdateSection from './components/CreateOrUpdateSection.vue'
+import CreateOrUpdateLesson from './components/CreateOrUpdateLesson.vue'
 
 export default Vue.extend({
   name: 'CourseSection',
   components: {
-    CreateOrUpdateSection
+    // 创建或编辑章节
+    CreateOrUpdateSection,
+    // 创建或编辑课时
+    CreateOrUpdateLesson
   },
   props: {
     courseId: {
@@ -89,15 +112,24 @@ export default Vue.extend({
           return data.sectionName || data.theme
         }
       },
-      isAddLessonShow: false,
+      // isAddLessonShow: false,
       // sectionDialogVisible: false,
       // 课程信息
       course: {
+        id: '',
         courseName: ''
       },
       // 课时信息
       lesson: {
-        sectionName: ''
+        // id: '',
+        courseId: '',
+        sectionId: '',
+        sectionName: '',
+        theme: '',
+        duration: '',
+        isFree: true,
+        orderNum: 0,
+        status: 0
       },
       // 章节信息 添加或者编辑
       section: {
@@ -112,19 +144,22 @@ export default Vue.extend({
     }
   },
   created () {
+    this.loadCourse()
     this.loadSections()
   },
   methods: {
+    async loadCourse () {
+      const { data } = await getCourseById(this.courseId)
+      // console.log('courseInfo', data)
+      this.course = data.data
+      this.section.courseId = this.course.id
+      this.section.courseName = this.course.courseName
+      this.lesson.courseId = this.course.id
+    },
     async loadSections () {
       const { data } = await getSectionAndLesson(this.courseId)
       // console.log(data)
       this.sections = data.data
-    },
-    async handleAddLesson () {
-      // await saveOrUpdateLesson(this.lesson)
-      this.$message.success('操作成功')
-      this.loadSections()
-      this.isAddLessonShow = false
     },
     // 添加章节/阶段
     handleShowAddSection (data: any) {
@@ -135,15 +170,77 @@ export default Vue.extend({
     },
     // 编辑章节/阶段
     handleEditSectionShow (section: any) {
-      console.log(section)
+      // console.log(section)
       this.section = section
       ;(this.$refs.sectionDialog as any).showDialog()
+    },
+    handleSectionDialogHide () {
+      this.section = {
+        // id: '',
+        courseId: this.course.id,
+        courseName: this.course.courseName,
+        sectionName: '',
+        description: '',
+        orderNum: '',
+        status: 0
+      }
+    },
+    // 提交章节信息
+    async handleSubmitSection (section: any) {
+      try {
+        const { data } = await saveOrUpdateSection(section)
+        if (data.code === '000000') {
+          this.$message.success('操作成功')
+          this.loadSections()
+        } else {
+          this.$message.error('操作失败')
+        }
+      } catch (e) {
+        this.$message.error('操作失败')
+      } finally {
+        (this.$refs.sectionDialog as any).handleClose()
+      }
+    },
+    // 添加课时
+    handleShowAddLesson (section: any) {
+      // console.log(section)
+      this.lesson.sectionId = section.id
+      this.lesson.sectionName = section.sectionName
+      ;(this.$refs.lessonDialog as any).showDialog()
     },
     // 编辑课时
     handleShowEditLesson (lesson: any, section: any) {
       this.lesson = lesson
       this.lesson.sectionName = section.sectionName
-      this.isAddLessonShow = true
+      // this.isAddLessonShow = true
+      ;(this.$refs.lessonDialog as any).showDialog()
+    },
+    handleLessonDialogHide () {
+      this.lesson = {
+        courseId: this.course.id,
+        sectionId: '',
+        sectionName: '',
+        theme: '',
+        duration: '',
+        isFree: true,
+        orderNum: 0,
+        status: 0
+      }
+    },
+    async handleSubmitLessonData (lesson: any) {
+      try {
+        const { data } = await saveOrUpdateLesson(lesson)
+        if (data.code === '000000') {
+          this.$message.success('操作成功')
+          this.loadSections()
+        } else {
+          this.$message.error('操作失败')
+        }
+      } catch (e) {
+        this.$message.error('操作失败')
+      } finally {
+        (this.$refs.lessonDialog as any).handleClose()
+      }
     },
     // 章节/阶段状态变化
     async handleSectionStatusChange (section: any) {
@@ -158,6 +255,7 @@ export default Vue.extend({
         this.$message.error('状态切换失败')
       }
     },
+    // 拖拽排序
     handleAllowDrop (draggingNode: any, dropNode: any, type: any) {
       return draggingNode.data.sectionId === dropNode.data.sectionId && type !== 'inner'
     },
@@ -184,19 +282,19 @@ export default Vue.extend({
         this.$message.error('排序失败')
       }
     },
-    handleSectionDialogHide () {
-      this.section = {
-        // id: '',
-        courseId: '',
-        courseName: '',
-        sectionName: '',
-        description: '',
-        orderNum: '',
-        status: 0
+    // 课时状态变化
+    async handleLessonStatusChange (lesson: any) {
+      // console.log(data)
+      try {
+        const { data } = await saveOrUpdateLesson(lesson)
+        if (data.code === '000000') {
+          this.$message.success('状态切换成功')
+        } else {
+          this.$message.error('状态切换失败')
+        }
+      } catch (err) {
+        this.$message.error('状态切换失败')
       }
-    },
-    handleLessonStatusChange (data: any) {
-      console.log(data)
     }
   }
 })

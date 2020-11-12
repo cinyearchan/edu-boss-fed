@@ -8,7 +8,7 @@
   >
     <el-form label-width="80px" :model="section">
       <el-form-item label="课程名称">
-        <el-input v-model="section.courseName"></el-input>
+        <el-input v-model="course.courseName" disabled></el-input>
       </el-form-item>
       <el-form-item label="章节名称">
         <el-input v-model="section.sectionName"></el-input>
@@ -36,9 +36,12 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'CreateOrUpdateSection',
+  name: 'CreateOrUpdateSection', // 创建或编辑章节
   props: {
     section: {
+      type: Object
+    },
+    course: {
       type: Object
     }
   },
@@ -49,12 +52,14 @@ export default Vue.extend({
   },
   methods: {
     handleCancel () {
-      console.log('cancel')
+      // console.log('cancel')
       this.sectionDialogVisible = false
     },
     handleSubmit () {
-      console.log('submit')
-      this.sectionDialogVisible = false
+      // console.log('submit')
+      // this.sectionDialogVisible = false
+      // 向外提交更改数据
+      this.$emit('submitSectionData', this.section)
     },
     handleClose () {
       // this.$emit('close')

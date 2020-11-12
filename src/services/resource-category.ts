@@ -19,7 +19,7 @@ export const saveOrUpdateResourceCategory = (data: any) => {
   })
 }
 
-export const deleteResourceCategory = (categoryId) => {
+export const deleteResourceCategory = (categoryId: string | number) => {
   return request({
     method: 'DELETE',
     url: `/boss/resource/category/${categoryId}`
